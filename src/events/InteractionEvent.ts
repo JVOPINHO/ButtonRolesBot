@@ -37,7 +37,7 @@ class InteractionCreateEvent extends Event {
 
         let command: Command | SubCommand = this.client.commands[commandType].find(c => c.name == interaction.data.name) as Command;
         
-        if(!command) return logger.warn(`Command ${interaction.data.name} not found`, { label: `Cluster ${process.env.CLUSTER_ID}, Client, InteractionCreate` });
+        if(!command) return logger.warn(`Command ${interaction.data.name} not found`, { label: `Client, InteractionCreate` });
 
         if(!interaction.guildID && command.requirements?.guildOnly) return;
 
@@ -66,13 +66,13 @@ class InteractionCreateEvent extends Event {
             if (!ps.member)
 				return interaction.createMessage({
                     embeds: [
-                        Utils.embedError(`**Você não tem as permissões necessárias para executar esse comando**:\n\`${command.requirements?.permissions?.discord?.map(x => permissions[x]).join(', ')}\``, context.user),
+                        Utils.embedError(`**You don't have the necessary permissions to run this command**:\n\`${command.requirements?.permissions?.discord?.join(', ')}\``, context.user),
                     ]
                 });
 			if (!ps.me)
 				return interaction.createMessage({
                     embeds: [
-                        Utils.embedError(`**Eu não tem as permissões necessárias para executar esse comando**:\n\`${command.requirements?.permissions?.discord?.map(x => permissions[x]).join(', ')}\``, context.user),
+                        Utils.embedError(`**I don't have the necessary permissions to run this command**:\n\`${command.requirements?.permissions?.me?.join(', ')}\``, context.user),
                     ]
                 });
         }

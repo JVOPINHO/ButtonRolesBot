@@ -6,7 +6,7 @@ class ReadyEvent extends Event {
     }
 
     async run() {
-        logger.info(`Logged in as ${this.client.user?.username}`, { label: `Cluster ${process.env.CLUSTER_ID}, Client` });
+        logger.info(`Logged in as ${this.client.user?.username}`, { label: `Client` });
     }
 }
 

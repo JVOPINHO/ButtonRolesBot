@@ -49,7 +49,7 @@ class Client extends Eris.Client {
         const regex = /^(.*)Event\.(t|j)s$/;
         let events = fs.readdirSync(__dirname + '/../events').filter(file => regex.test(file));
         for (let event of events) {
-            logger.info(`Loading event ${event.replace(regex, '$1Event')}`, { label: `Cluster ${process.env.CLUSTER_ID}, Client, Event Loader` });
+            logger.info(`Loading event ${event.replace(regex, '$1Event')}`, { label: `Client, Event Loader` });
 
             let { default: base } = require(__dirname + `/../events/${event}`);
             
@@ -57,10 +57,10 @@ class Client extends Eris.Client {
 
             this.events.push(instance);
 
-            this.on(instance.eventName, (...args) => instance.run? instance.run(...args) : logger.warn(`Event ${instance.eventName} has no run function.`, { label: `Cluster ${process.env.CLUSTER_ID}, Client, Event Loader`, error: true }));
+            this.on(instance.eventName, (...args) => instance.run? instance.run(...args) : logger.warn(`Event ${instance.eventName} has no run function.`, { label: `Client, Event Loader`, error: true }));
         };
 
-        logger.info(`Loaded ${this.events.length} events of ${events.length}`, { label: `Cluster ${process.env.CLUSTER_ID}, Client, Event Loader` });
+        logger.info(`Loaded ${this.events.length} events of ${events.length}`, { label: `Client, Event Loader` });
 
         return this.events;
     }
@@ -109,7 +109,7 @@ class Client extends Eris.Client {
                                 for (let subsubcommand of subsubcommands) {
                                     let { default: base } = require(__dirname + `/../commands/${type}/${category}/${command}/${subcommand}/${subsubcommand}`);
 
-                                    logger.info(`Loading ${type} command ${subsubcommand.replace(fileRegex, '$1$2')} for command group ${subcommand.replace(fileRegex, '$1$2')} on command ${command.replace(fileRegex, '$1$2')}`, { label: `Cluster ${process.env.CLUSTER_ID}, Client, Commands Loader` });
+                                    logger.info(`Loading ${type} command ${subsubcommand.replace(fileRegex, '$1$2')} for command group ${subcommand.replace(fileRegex, '$1$2')} on command ${command.replace(fileRegex, '$1$2')}`, { label: `Client, Commands Loader` });
 
                                     const instance  = new base(this, _subcommand) as SubCommand;
 
@@ -119,7 +119,7 @@ class Client extends Eris.Client {
                                 _command.subcommands.push(_subcommand);
                             } else {
                                 let { default: base } = require(__dirname + `/../commands/${type}/${category}/${command}/${subcommand}`);
-                                logger.info(`Loading ${type} command ${subcommand.replace(fileRegex, '$1$2')} on command ${command.replace(fileRegex, '$1$2')}`, { label: `Cluster ${process.env.CLUSTER_ID}, Client, Commands Loader` });
+                                logger.info(`Loading ${type} command ${subcommand.replace(fileRegex, '$1$2')} on command ${command.replace(fileRegex, '$1$2')}`, { label: `Client, Commands Loader` });
                                 const instance  = new base(this, _command) as SubCommand;
 
                                 _command.subcommands.push(instance);
@@ -128,7 +128,7 @@ class Client extends Eris.Client {
                     } else {
                         let { default: base } = require(`${__dirname}/../commands/${type}/${category}/${command}`);
 
-                        logger.info(`Loading ${type} command ${command.replace(fileRegex, '$1$2')}`, { label: `Cluster ${process.env.CLUSTER_ID}, Client, Commands Loader` });
+                        logger.info(`Loading ${type} command ${command.replace(fileRegex, '$1$2')}`, { label: `Client, Commands Loader` });
                         
                         const instance  = new base(this) as Command;
 

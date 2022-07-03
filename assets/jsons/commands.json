@@ -1,0 +1,20 @@
+{
+    "embed": {
+        "name": "embed",
+        "description": "Creates an embed for you",
+        "options": [
+            {
+                "type": 1,
+                "name": "create",
+                "description":"Creates an embed for you",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "raw_json",
+                        "description": "Embed Json"
+                    }
+                ]
+            }
+        ]
+    }
+}
